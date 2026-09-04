@@ -22,21 +22,39 @@ This project explores operational friction points using a relational database mo
 
 The project consists of three core tables enforcing primary keys, foreign keys, `ENUM` types for clean categorical grouping, and `CHECK` constraints for data integrity.
 
-+--------------------+        +-------------------------+        +--------------------+
-|       AGENTS       |        |    CHAT_INTERACTIONS    |        |     CUSTOMERS      |
-+--------------------+        +-------------------------+        +--------------------+
-| agent_id (PK)      | <----+ | chat_id (PK)            | +----> | customer_id (PK)   |
-| agent_name         |        | customer_id (FK)        |        | customer_name      |
-| tier               |        | agent_id (FK)           |        | email              |
-| shift              |        | chat_start_time         |        | account_tier       |
-| hire_date          |        | chat_end_time           |        | signup_date        |
-+--------------------+        | wait_time_seconds       |        +--------------------+
-| topic                   |
-| resolution_status       |
-| csat_score (CHECK 1-5)  |
-+-------------------------+
+```mermaid
+erDiagram
+    CUSTOMERS ||--o{ CHAT_INTERACTIONS : places
+    AGENTS ||--o{ CHAT_INTERACTIONS : handles
 
----
+    CUSTOMERS {
+        int customer_id PK
+        string customer_name
+        string email UK
+        enum account_tier
+        date signup_date
+    }
+
+    AGENTS {
+        int agent_id PK
+        string agent_name
+        enum tier
+        enum shift
+        date hire_date
+    }
+
+    CHAT_INTERACTIONS {
+        int chat_id PK
+        int customer_id FK
+        int agent_id FK
+        datetime chat_start_time
+        datetime chat_end_time
+        int wait_time_seconds
+        string topic
+        enum resolution_status
+        int csat_score
+    }
+```
 
 ## 🛠️ Tech Stack & SQL Concepts Applied
 
