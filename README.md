@@ -69,3 +69,15 @@ erDiagram
 * **Temporal Calculations:** `TIMESTAMPDIFF()` for accurate minute-based Average Handle Time (AHT) and `HOUR()` for queue arrival clustering.
 
 ---
+
+---
+
+## 👤 Author & Contact
+
+**Abhinandan Kumar**  
+*Aspiring Data Analyst / Business Analyst*
+
+* **GitHub:** [@abhinandanrajput0307-svg](https://github.com/abhinandanrajput0307-svg)
+* **Email:** abhinandanrajput0307@gmail.com
+
+> *Open to Data Analyst, Junior Data Analyst, and Business Analyst roles. Feel free to connect or reach out regarding collaboration opportunities!*
