@@ -17,9 +17,9 @@ Order the results by total chat volume in descending order.
 SELECT
 	a.shift,
     COUNT(i.chat_id) AS total_chats,
-    ROUND(AVG(i.wait_time_seconds),1) AS avg_wait_time,
+    ROUND(AVG(i.wait_time_seconds),1) AS avg_wait_seconds,
     ROUND(AVG(i.csat_score), 2) AS avg_csat_score,
-    ROUND(AVG(TIMESTAMPDIFF(SECOND, i.chat_start_time, i.chat_end_time)) / 60.0, 1) AS avg_handing_time
+    ROUND(AVG(TIMESTAMPDIFF(SECOND, i.chat_start_time, i.chat_end_time) / 60.0), 1) AS avg_handle_minutes
 FROM chat_interactions i
 LEFT JOIN agents a
 ON a.agent_id = i.agent_id
@@ -147,7 +147,7 @@ SELECT
     SUM(CASE
 		WHEN wait_time_seconds > 120 THEN 1
         ELSE 0 END) AS breached_chats, -- count chats that exceed SLA
-	ROUND(AVG(wait_time_seconds), 0) AS avg_wait_time
+	ROUND(AVG(wait_time_seconds), 0) AS avg_wait_seconds
 FROM chat_interactions i
 LEFT JOIN customers c
 ON i.customer_id = c.customer_id
@@ -155,9 +155,9 @@ GROUP BY c.account_tier
 )
 SELECT
 	*,
-    ROUND(breached_chats/total_chats * 100, 1) AS breached_rate_pct
+    ROUND(breached_chats/total_chats * 100, 1) AS breach_rate_pct
 FROM CTE
-ORDER BY breached_rate_pct DESC;
+ORDER BY breach_rate_pct DESC;
 
 /*
 Task 6: Hourly Volume Heatmap & Peak Hours (Final Analysis Task)
@@ -189,4 +189,4 @@ SELECT
         ELSE 'Low' END AS volume_category
 FROM chat_interactions
 GROUP BY HOUR(chat_start_time)
-ORDER BY HOUR(chat_start_time)
+ORDER BY HOUR(chat_start_time);
